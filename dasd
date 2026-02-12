@@ -1,0 +1,101 @@
+const display = document.getElementById('display');
+const keys = document.querySelector('.keys');
+
+const state = {
+  current: '0',
+  previous: null,
+  operator: null,
+  shouldResetCurrent: false,
+};
+
+const formatNumber = (value) => {
+  if (!Number.isFinite(value)) return 'Error';
+  return Number(value.toFixed(10)).toString();
+};
+
+const updateDisplay = () => {
+  display.textContent = state.current;
+};
+
+const clearAll = () => {
+  state.current = '0';
+  state.previous = null;
+  state.operator = null;
+  state.shouldResetCurrent = false;
+  updateDisplay();
+};
+
+const inputDigit = (digit) => {
+  if (state.shouldResetCurrent) {
+    state.current = digit;
+    state.shouldResetCurrent = false;
+    updateDisplay();
+    return;
+  }
+
+  state.current = state.current === '0' ? digit : state.current + digit;
+  updateDisplay();
+};
+
+const inputDecimal = () => {
+  if (state.shouldResetCurrent) {
+    state.current = '0.';
+    state.shouldResetCurrent = false;
+    updateDisplay();
+    return;
+  }
+
+  if (!state.current.includes('.')) {
+    state.current += '.';
+    updateDisplay();
+  }
+};
+
+const calculate = () => {
+  const prev = Number(state.previous);
+  const current = Number(state.current);
+
+  if (state.operator === '+') return prev + current;
+  if (state.operator === '-') return prev - current;
+  if (state.operator === '*') return prev * current;
+  if (state.operator === '/') return current === 0 ? NaN : prev / current;
+  return current;
+};
+
+const chooseOperator = (nextOperator) => {
+  if (state.operator && !state.shouldResetCurrent) {
+    const result = calculate();
+    state.current = formatNumber(result);
+    state.previous = state.current;
+  } else {
+    state.previous = state.current;
+  }
+
+  state.operator = nextOperator;
+  state.shouldResetCurrent = true;
+  updateDisplay();
+};
+
+const executeEquals = () => {
+  if (!state.operator || state.previous === null) return;
+
+  const result = calculate();
+  state.current = formatNumber(result);
+  state.previous = null;
+  state.operator = null;
+  state.shouldResetCurrent = true;
+  updateDisplay();
+};
+
+keys.addEventListener('click', (event) => {
+  const button = event.target.closest('button');
+  if (!button) return;
+
+  const action = button.dataset.action;
+
+  if (action === 'digit') inputDigit(button.dataset.value);
+  if (action === 'decimal') inputDecimal();
+  if (action === 'operator') chooseOperator(button.dataset.value);
+  if (action === 'equals') executeEquals();
+  if (action === 'clear') clearAll();
+});
