@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora avanzada</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="calculator" aria-label="Calculadora avanzada">
+        <header>
+          <h1>Calculadora avanzada</h1>
+          <p>Con memoria, historial, teclado y funciones científicas básicas.</p>
+        </header>
+
+        <div class="display-wrap">
+          <output id="expression" class="expression" aria-live="polite"></output>
+          <output id="display" class="display" aria-live="assertive">0</output>
+        </div>
+
+        <div class="keys" id="keys">
+          <button data-action="memory-clear">MC</button>
+          <button data-action="memory-recall">MR</button>
+          <button data-action="memory-add">M+</button>
+          <button data-action="memory-subtract">M-</button>
+          <button data-action="clear-all" class="danger">C</button>
+
+          <button data-action="clear-entry">CE</button>
+          <button data-action="backspace">⌫</button>
+          <button data-action="func" data-value="(">(</button>
+          <button data-action="func" data-value=")">)</button>
+          <button data-action="operator" data-value="/">÷</button>
+
+          <button data-action="func" data-value="sqrt">√x</button>
+          <button data-action="func" data-value="square">x²</button>
+          <button data-action="func" data-value="reciprocal">1/x</button>
+          <button data-action="func" data-value="percent">%</button>
+          <button data-action="operator" data-value="*">×</button>
+
+          <button data-action="digit" data-value="7">7</button>
+          <button data-action="digit" data-value="8">8</button>
+          <button data-action="digit" data-value="9">9</button>
+          <button data-action="operator" data-value="-">−</button>
+          <button data-action="func" data-value="pi">π</button>
+
+          <button data-action="digit" data-value="4">4</button>
+          <button data-action="digit" data-value="5">5</button>
+          <button data-action="digit" data-value="6">6</button>
+          <button data-action="operator" data-value="+">+</button>
+          <button data-action="func" data-value="e">e</button>
+
+          <button data-action="digit" data-value="1">1</button>
+          <button data-action="digit" data-value="2">2</button>
+          <button data-action="digit" data-value="3">3</button>
+          <button data-action="func" data-value="sign">±</button>
+          <button data-action="func" data-value="pow">xʸ</button>
+
+          <button data-action="digit" data-value="0" class="span-2">0</button>
+          <button data-action="decimal">.</button>
+          <button data-action="equals" class="accent span-2">=</button>
+        </div>
+      </section>
+
+      <aside class="history-panel" aria-label="Historial de operaciones">
+        <h2>Historial</h2>
+        <ol id="history"></ol>
+        <p class="tip">Tip: haz clic en un resultado para reutilizarlo.</p>
+      </aside>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
