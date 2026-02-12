@@ -1,0 +1,170 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f141b;
+  --panel: #1b2430;
+  --panel-soft: #243041;
+  --text: #eff5ff;
+  --muted: #91a0b5;
+  --accent: #28c0a8;
+  --danger: #f25757;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #172235, var(--bg));
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.app {
+  display: grid;
+  gap: 1rem;
+  width: min(1050px, 96vw);
+  grid-template-columns: 2fr 1fr;
+}
+
+.calculator,
+.history-panel {
+  background: linear-gradient(180deg, #1e2937, var(--panel));
+  border: 1px solid #2f3d52;
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
+}
+
+.calculator {
+  padding: 1rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+header p {
+  margin: 0.35rem 0 0.9rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.display-wrap {
+  background: #0f1723;
+  border-radius: 10px;
+  padding: 0.7rem;
+  margin-bottom: 0.9rem;
+  border: 1px solid #2f3d52;
+}
+
+.expression,
+.display {
+  display: block;
+  width: 100%;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expression {
+  min-height: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.display {
+  min-height: 3.2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0.85rem 0.5rem;
+  background: var(--panel-soft);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform 0.08s ease, filter 0.12s ease;
+}
+
+button:hover {
+  filter: brightness(1.15);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button[data-action='operator'],
+button[data-action='func'] {
+  background: #31435b;
+}
+
+.accent {
+  background: var(--accent);
+  color: #062e29;
+}
+
+.danger {
+  background: var(--danger);
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.history-panel {
+  padding: 1rem;
+}
+
+.history-panel h2 {
+  margin-top: 0;
+}
+
+#history {
+  margin: 0;
+  padding-left: 1.1rem;
+  max-height: 420px;
+  overflow: auto;
+}
+
+#history li {
+  margin-bottom: 0.45rem;
+  color: #d9e4f5;
+}
+
+#history button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid #334660;
+  padding: 0.45rem;
+  border-radius: 8px;
+}
+
+.tip {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 850px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+}
