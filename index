@@ -1,101 +1,74 @@
-const display = document.getElementById('display');
-const keys = document.querySelector('.keys');
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora avanzada</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="calculator" aria-label="Calculadora avanzada">
+        <header>
+          <h1>Calculadora avanzada</h1>
+          <p>Con memoria, historial, teclado y funciones científicas básicas.</p>
+        </header>
 
-const state = {
-  current: '0',
-  previous: null,
-  operator: null,
-  shouldResetCurrent: false,
-};
+        <div class="display-wrap">
+          <output id="expression" class="expression" aria-live="polite"></output>
+          <output id="display" class="display" aria-live="assertive">0</output>
+        </div>
 
-const formatNumber = (value) => {
-  if (!Number.isFinite(value)) return 'Error';
-  return Number(value.toFixed(10)).toString();
-};
+        <div class="keys" id="keys">
+          <button data-action="memory-clear">MC</button>
+          <button data-action="memory-recall">MR</button>
+          <button data-action="memory-add">M+</button>
+          <button data-action="memory-subtract">M-</button>
+          <button data-action="clear-all" class="danger">C</button>
 
-const updateDisplay = () => {
-  display.textContent = state.current;
-};
+          <button data-action="clear-entry">CE</button>
+          <button data-action="backspace">⌫</button>
+          <button data-action="func" data-value="(">(</button>
+          <button data-action="func" data-value=")">)</button>
+          <button data-action="operator" data-value="/">÷</button>
 
-const clearAll = () => {
-  state.current = '0';
-  state.previous = null;
-  state.operator = null;
-  state.shouldResetCurrent = false;
-  updateDisplay();
-};
+          <button data-action="func" data-value="sqrt">√x</button>
+          <button data-action="func" data-value="square">x²</button>
+          <button data-action="func" data-value="reciprocal">1/x</button>
+          <button data-action="func" data-value="percent">%</button>
+          <button data-action="operator" data-value="*">×</button>
 
-const inputDigit = (digit) => {
-  if (state.shouldResetCurrent) {
-    state.current = digit;
-    state.shouldResetCurrent = false;
-    updateDisplay();
-    return;
-  }
+          <button data-action="digit" data-value="7">7</button>
+          <button data-action="digit" data-value="8">8</button>
+          <button data-action="digit" data-value="9">9</button>
+          <button data-action="operator" data-value="-">−</button>
+          <button data-action="func" data-value="pi">π</button>
 
-  state.current = state.current === '0' ? digit : state.current + digit;
-  updateDisplay();
-};
+          <button data-action="digit" data-value="4">4</button>
+          <button data-action="digit" data-value="5">5</button>
+          <button data-action="digit" data-value="6">6</button>
+          <button data-action="operator" data-value="+">+</button>
+          <button data-action="func" data-value="e">e</button>
 
-const inputDecimal = () => {
-  if (state.shouldResetCurrent) {
-    state.current = '0.';
-    state.shouldResetCurrent = false;
-    updateDisplay();
-    return;
-  }
+          <button data-action="digit" data-value="1">1</button>
+          <button data-action="digit" data-value="2">2</button>
+          <button data-action="digit" data-value="3">3</button>
+          <button data-action="func" data-value="sign">±</button>
+          <button data-action="func" data-value="pow">xʸ</button>
 
-  if (!state.current.includes('.')) {
-    state.current += '.';
-    updateDisplay();
-  }
-};
+          <button data-action="digit" data-value="0" class="span-2">0</button>
+          <button data-action="decimal">.</button>
+          <button data-action="equals" class="accent span-2">=</button>
+        </div>
+      </section>
 
-const calculate = () => {
-  const prev = Number(state.previous);
-  const current = Number(state.current);
+      <aside class="history-panel" aria-label="Historial de operaciones">
+        <h2>Historial</h2>
+        <ol id="history"></ol>
+        <p class="tip">Tip: haz clic en un resultado para reutilizarlo.</p>
+      </aside>
+    </main>
 
-  if (state.operator === '+') return prev + current;
-  if (state.operator === '-') return prev - current;
-  if (state.operator === '*') return prev * current;
-  if (state.operator === '/') return current === 0 ? NaN : prev / current;
-  return current;
-};
-
-const chooseOperator = (nextOperator) => {
-  if (state.operator && !state.shouldResetCurrent) {
-    const result = calculate();
-    state.current = formatNumber(result);
-    state.previous = state.current;
-  } else {
-    state.previous = state.current;
-  }
-
-  state.operator = nextOperator;
-  state.shouldResetCurrent = true;
-  updateDisplay();
-};
-
-const executeEquals = () => {
-  if (!state.operator || state.previous === null) return;
-
-  const result = calculate();
-  state.current = formatNumber(result);
-  state.previous = null;
-  state.operator = null;
-  state.shouldResetCurrent = true;
-  updateDisplay();
-};
-
-keys.addEventListener('click', (event) => {
-  const button = event.target.closest('button');
-  if (!button) return;
-
-  const action = button.dataset.action;
-
-  if (action === 'digit') inputDigit(button.dataset.value);
-  if (action === 'decimal') inputDecimal();
-  if (action === 'operator') chooseOperator(button.dataset.value);
-  if (action === 'equals') executeEquals();
-  if (action === 'clear') clearAll();
-});
+    <script src="script.js"></script>
+  </body>
+</html>
